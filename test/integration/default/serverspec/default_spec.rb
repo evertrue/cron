@@ -1,0 +1,95 @@
+require 'spec_helper'
+
+describe 'cron.d files' do
+  %w(nil no).each do |jobname|
+    describe file("/etc/cron.d/#{jobname}_value_check") do
+      it do should contain <<EOS
+# Crontab for nil_value_check managed by Chef. Changes will be overwritten.
+
+* * * * * appuser /bin/true
+EOS
+      end
+    end
+  end
+  describe file('/etc/cron.d/bizarrely-scheduled-usage-report') do
+    # WARNING: This is totally dependent on the actual subnet address of
+    # EverTrue's actual VPC.  It won't play well for other users.
+    it do should contain <<EOS
+# Crontab for bizarrely-scheduled-usage-report managed by Chef. Changes will be overwritten.
+
+*/5 1,23 2-5 * * appuser /srv/app/scripts/generate_report
+EOS
+    end
+  end
+  describe file('/etc/cron.d/fixnum-job') do
+    it do should contain <<EOS
+# Crontab for fixnum-job managed by Chef. Changes will be overwritten.
+
+0 1 2 * * appuser /bin/true
+EOS
+    end
+  end
+  describe file('/etc/cron.d/predefined_value_check') do
+    it do should contain <<EOS
+# Crontab for predefined_value_check managed by Chef. Changes will be overwritten.
+
+@midnight appuser /bin/true
+EOS
+    end
+  end
+end
+
+# describe 'Zone Data' do
+#   describe command('dig SOA priv.yourdomain.local @localhost') do
+#     it { should return_stdout(/status: NOERROR/) }
+#     it { should return_stdout(/hostmaster\.yourdomain\.local\./) }
+#   end
+
+#   describe file('/etc/bind/named.conf.local') do
+#     it { should contain 'zone "priv.yourdomain.local" {' }
+#     it { should contain 'zone "10.in-addr.arpa" {' }
+#   end
+
+#   describe file('/etc/bind/named.conf.options') do
+#     it { should contain '192.168.19.0/24;' }
+#     it { should contain 'listen-on-v6 { none; };' }
+#     it { should contain '/var/cache/bind' }
+#   end
+
+#   describe file('/etc/rsyslog.d/25-named.conf') do
+#     it { should contain '$DirGroup bind' }
+#     it { should contain '/var/log/named/named.log;BindLog' }
+#   end
+
+#   describe file('/etc/bind/db.priv.yourdomain.local') do
+#     it { should contain '$ORIGIN priv.yourdomain.local' }
+#     it { should contain ' NS ' }
+#     it { should contain ' IN A 10.' }
+#   end
+# end
+
+# describe 'Overrides' do
+#   describe command('dig +short test-value-host.yourdomain.local '\
+#     '@localhost') do
+#     it { should return_stdout('1.1.1.1') }
+#   end
+
+#   describe command('dig +short stage-storm.priv.yourdomain.local '\
+#     '@localhost') do
+#     it { should return_stdout('stage-ops-haproxy-1b.priv.yourdomain.local.') }
+#   end
+# end
+
+# describe 'Company specific overrides' do
+#   # These overrides require that your Amazon cluster actually contain specific
+#   # servers meeting the search requirements (defined in .kitchen.yml).  You
+#   # will need to set the IP below to match the IP of your real instances.
+#   describe command('dig +short test-cookbook-host.yourdomain.local '\
+#     '@localhost') do
+#     it { should return_stdout(/^10.0.5.177$/) } # <-- SET THIS IP
+#   end
+
+#   describe command('dig +short -x 10.0.5.177 @localhost') do # <-- SET THIS IP, too!
+#     it { should return_stdout(/^stage-ops-haproxy-1b.priv.evertrue.com.$/) }
+#   end
+# end
