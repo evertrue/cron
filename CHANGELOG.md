@@ -1,6 +1,30 @@
-cron Cookbook CHANGELOG
-=======================
-This file is used to list changes made in each version of the cron cookbook.
+v1.5.0 (2014-09-15)
+-------------------
+- [#25] Fixes NameError exception on :delete
+- [#33] Updates README
+- [#40] Fixes local test-kitchen config
+- [#20] Implements a comment for cron_d provider
+
+v1.4.3 (2014-09-09)
+-------------------
+- [#46] Fixes a broken case statement causing cron_d to fail
+
+v1.4.2 (2014-09-08)
+-------------------
+#31 - Fix up validate_month for Fixnums
+#32 - Fix upvalidate_dow for Fixnums
+
+v1.4.0 (2014-05-07)
+-------------------
+- [COOK-4628] Adding cron_manage to allow or deny users
+
+
+v1.3.12 (2014-04-23)
+--------------------
+- [COOK-4550] - cron_d resource sometimes does not print the time in the cron output
+- PR #23 fix validate month and dow
+- Updating test harness, adding specs
+
 
 v1.3.10 (2014-04-10)
 --------------------
